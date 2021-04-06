@@ -1,12 +1,16 @@
 <template>
-  <div class="wrapper">
-    <div class="container">
-      <router-view/>
-    </div>
-  </div>
+  <v-app>
+    <v-main>
+      <v-container>
+        <div class="div-content">
+          <router-view/>
+        </div>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,20 +19,7 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-.wrapper {
-  padding: 100px 0;
+.div-content {
+  margin-bottom: 200px;
 }
 </style>

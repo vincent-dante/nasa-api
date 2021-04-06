@@ -1,82 +1,71 @@
 <template>
-  <div class="row">
-    <div class="col-lg-6 offset-lg-3">
-      
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" @keyup.enter="loadData()" v-model="search" placeholder="Search here...">
-        <button class="btn btn-dark" @click="loadData()">Search</button>  
-      </div>
+  <v-row>
 
-    </div>
-  </div>
+    <v-col class="col-lg-8 col-sm-12 offset-lg-2">
 
-  <br>
-  <br>
-  <br>
-  <br>
-
-
-  <div class="row">
-    <div class="col-lg-8 offset-lg-2">
-      <div v-for="(obj, id) in datas" :key="id">
-        <div class="card mb-3" v-for="(link, id) in obj.links" :key="id">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img :src="link.href" alt="" srcset="" class="card-image">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body text-start">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">ff</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
+      <v-row> 
+        <v-col class="col-lg-6 col-sm-12 offset-lg-3">
+          <div class="pt-10 pb-10">
+            <v-text-field 
+              label="Search here." 
+              @keyup.enter="loadData()" 
+              v-model="search"
+              :rules="rules"
+            >
+              <v-icon slot="prepend" color="green">
+                mdi-magnify
+              </v-icon>
+            </v-text-field>
           </div>
+        </v-col>
+      </v-row>
+
+
+      <masonry :cols="{default: 4, 1000: 3, 700: 2, 400: 1}" :gutter="20">
+        <div v-for="(obj, id) in datas" :key="id" class="card-container">
+          <v-card>
+
+            <v-img 
+              v-if="obj && obj.links"
+              lazy-src="https://picsum.photos/id/11/10/6"
+              :src="obj.links[0].href"
+              class="card-image" 
+            ></v-img>
+
+            <div v-for="(data, id) in obj.data" :key="id" class="text-left p-5">
+              <v-card-title class="card-title-chg">
+                {{ data.title }}
+              </v-card-title>
+
+              <v-card-text class="text--primary">
+                <div class="card-description">
+                  {{ data.description }}
+                </div>
+                <a href="#">Read More</a>
+              </v-card-text>
+            </div>
+
+          </v-card>
         </div>
-    </div>
+      </masonry>
 
-    </div>
-
-
-
-
-
-
-<!--     <div class="col-lg-12 mb-3" >
-      <div class="card" v-for="(link, id) in obj.links" :key="id">
-        <img :src="link.href" alt="" srcset="" class="card-image">
-        <div class="card-body">
-            ff
-        </div>
-      </div>
-    </div> -->
-  </div>
-
-
-
-
- 
-
-
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 const axios = require('axios');
-
 
 export default {
   name: 'Home',
   data(){
     return {
       search: '',
-      datas: {
-        links: [
-          {
-            href: ''
-          }
-        ]
-      },
-      pageNumber: 1
+      datas: [],
+      pageNumber: 1,
+      rules: [
+        value => !!value || 'Required.'
+      ],
     }
   },
   methods: {
@@ -84,6 +73,8 @@ export default {
     loadData(){
       let search = this.search;
       let pageNum = this.pageNumber;
+
+      if(search.length == 0) return;
 
       axios
       .get(`https://images-api.nasa.gov/search?q=${search}&page=${pageNum}`)
@@ -102,21 +93,25 @@ export default {
 </script>
 
 <style scoped>
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
+.input-search {
+  border: 1px solid black;
 }
 
-.box-container {
-  padding: 10px;
+.card-container {
+  margin-top: 20px;
 }
 
 .card-image {
   width: 100%;
+  max-height: 500px;
+} 
+
+.card-title-chg {
+  font-size: 18px;
 }
 
-.column-flex {
-  padding: 0 5px;
+.card-description {
+  max-height: 155px;
+  overflow-y: hidden;
 }
 </style>
