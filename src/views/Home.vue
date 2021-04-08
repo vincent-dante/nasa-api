@@ -1,7 +1,7 @@
 <template>
   <v-row>
 
-    <v-col class="col-lg-8 col-sm-12 offset-lg-2">
+    <v-col class="col-lg-10 col-sm-12 offset-lg-1">
 
       <v-row> 
         <v-col class="col-lg-6 col-sm-12 offset-lg-3">
@@ -21,7 +21,8 @@
       </v-row>
 
 
-      <masonry :cols="{default: 4, 1000: 3, 700: 2, 400: 1}" :gutter="20">
+
+      <masonry :cols="{default: 5, 1000: 3, 700: 2, 400: 1}" :gutter="20">
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
           <v-card>
 
@@ -48,6 +49,8 @@
           </v-card>
         </div>
       </masonry>
+
+
 
     </v-col>
   </v-row>
