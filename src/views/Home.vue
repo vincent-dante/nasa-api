@@ -20,12 +20,10 @@
         </v-col>
       </v-row>
 
-
-
-      <masonry :cols="{default: 5, 1000: 3, 700: 2, 400: 1}" :gutter="20">
+      <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20">
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
-          <v-card>
-
+          <v-card class="card-box">
+            
             <v-img 
               v-if="obj && obj.links"
               lazy-src="https://picsum.photos/id/11/10/6"
@@ -33,17 +31,12 @@
               class="card-image" 
             ></v-img>
 
-            <div v-for="(data, id) in obj.data" :key="id" class="text-left p-5">
-              <v-card-title class="card-title-chg">
-                {{ data.title }}
-              </v-card-title>
-
-              <v-card-text class="text--primary">
-                <div class="card-description">
-                  {{ data.description }}
-                </div>
-                <a href="#">Read More</a>
-              </v-card-text>
+            <div class="card-info">
+              <div v-for="(data, id) in obj.data" :key="id" class="text-left p-5">
+                <v-card-title class="card-title-chg">
+                  {{ data.title }}
+                </v-card-title>
+              </div>
             </div>
 
           </v-card>
@@ -95,13 +88,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .input-search {
   border: 1px solid black;
 }
 
 .card-container {
   margin-top: 20px;
+}
+
+.card-box {
+  background: #333a4f !important;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card-box:hover .card-info {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.card-box:hover .card-image {
+  transform: scale(1.2);
+  transition: all 1.3s;
+}
+
+.card-info {
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.69) 85%);
 }
 
 .card-image {

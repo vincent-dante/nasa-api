@@ -1,5 +1,6 @@
 <template>
   <v-app>
+
     <section class="galaxy-wrapper">
       <div class="galaxy">
         <div class="stars"></div> 
@@ -8,12 +9,13 @@
 
     <v-main>
       <v-container>
-        <h1>NASA API</h1>
+        <h1 class="heading-title">NASA API</h1>
         <div class="div-content">
           <router-view/>
         </div>
       </v-container>
-    </v-main>       
+    </v-main>  
+
   </v-app>
 </template>
 
@@ -28,6 +30,13 @@
 
 .div-content {
   margin-bottom: 200px;
+}
+
+.heading-title {
+  font-family: 'Megrim', cursive;
+  font-size: 60px;
+  letter-spacing: 0.2em;
+  margin: 20px 0;
 }
 
 .galaxy {
