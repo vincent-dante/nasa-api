@@ -22,7 +22,7 @@
 
       <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20">
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
-          <v-card class="card-box">
+          <v-card class="card-box" @click="loadModal(obj)">
             
             <v-img 
               v-if="obj && obj.links"
@@ -43,7 +43,40 @@
         </div>
       </masonry>
 
+      <div v-if="showModal" @close="showModal = false">
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container">
 
+                <div class="modal-header">
+                  <slot name="header">
+                    default header
+                  </slot>
+                </div>
+
+                <div class="modal-body">
+                  <slot name="body">
+                    {{ dataSelected.data[0].title }}
+
+                    <v-img lazy-src="https://picsum.photos/id/11/10/6" :src="dataSelected.links[0].href" class="card-image"></v-img> 
+                  </slot>
+                </div>
+
+                <div class="modal-footer">
+                  <slot name="footer">
+                    default footer
+                    <button class="modal-default-button" @click="showModal = false">
+                      OK
+                    </button>
+                  </slot>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </transition>     
+      </div> 
 
     </v-col>
   </v-row>
@@ -62,6 +95,8 @@ export default {
       rules: [
         value => !!value || 'Required.'
       ],
+      showModal: false,
+      dataSelected: {}
     }
   },
   methods: {
@@ -81,6 +116,13 @@ export default {
         this.datas = data.items;
       })
       .catch( err => console.error(err) )
+
+    },
+    loadModal(obj){
+      this.showModal = true;
+      this.dataSelected = obj;
+
+
 
     }
 
@@ -110,7 +152,7 @@ export default {
 
 .card-box:hover .card-image {
   transform: scale(1.2);
-  transition: all 1.3s;
+  transition: all 1.1s;
 }
 
 .card-info {
@@ -119,7 +161,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.69) 85%);
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.77) 85%);
 }
 
 .card-image {
@@ -134,5 +176,70 @@ export default {
 .card-description {
   max-height: 155px;
   overflow-y: hidden;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  text-align: left;
+  width: 60%;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #1a2837;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>
