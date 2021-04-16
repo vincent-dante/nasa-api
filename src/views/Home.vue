@@ -20,41 +20,47 @@
         </v-col>
       </v-row>
 
+
       <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20">
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
-          <v-card class="card-box" @click="loadModal(obj)">
-            
-            <v-img 
-              v-if="obj && obj.links"
-              lazy-src="https://picsum.photos/id/11/10/6"
-              :src="obj.links[0].href"
-              class="card-image" 
-            ></v-img>
-
-            <div class="card-info">
-              <div v-for="(data, id) in obj.data" :key="id" class="text-left p-5">
-                <v-card-title class="card-title-chg">
-                  {{ data.title }}
-                </v-card-title>
-              </div>
-            </div>
-
-          </v-card>
+          <v-hover v-slot="{ hover }">
+            <v-card class="card-box" @click="loadModal(obj)">
+              
+              <v-img 
+                v-if="obj && obj.links"
+                lazy-src="https://picsum.photos/id/11/10/6"
+                :src="obj.links[0].href"
+                class="card-image" 
+              >
+              <v-expand-transition>
+                <div
+                  v-if="hover"
+                  class="d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text"
+                  style="height: 100%;"
+                >
+                  <div v-for="(data, id) in obj.data" :key="id" class="p-5">
+                    <v-card-title class="card-title-chg green--text">
+                      {{ data.title }}
+                    </v-card-title>
+                  </div>
+                </div>
+              </v-expand-transition>
+              </v-img>
+            </v-card>
+          </v-hover>
         </div>
       </masonry>
 
 
       <v-dialog v-model="dialog" width="600px">
         <div v-if="dialog">
-          <v-card>
-
+          <v-card class="dialog-card">
 
             <v-img lazy-src="https://picsum.photos/id/11/10/6" :src="dataSelected.links[0].href" class="card-image"></v-img> 
 
             <v-card-title>
-              <span class="headline">{{ dataSelected.data[0].title }}</span>
+              <span class="headline green--text">{{ dataSelected.data[0].title }}</span>
             </v-card-title>
-
 
             <v-card-text class="card-description">
               {{ dataSelected.data[0].description }}
@@ -72,9 +78,6 @@
           </v-card>
         </div>
       </v-dialog>
-
-
-
 
 
     </v-col>
@@ -119,10 +122,9 @@ export default {
 
     },
     loadModal(obj){
+
       this.dialog = true;
       this.dataSelected = obj;
-
-
 
     }
 
@@ -146,22 +148,9 @@ export default {
 }
 
 .card-box:hover .card-info {
+  transition: all 0.3s;
   opacity: 1;
-  transition: all 0.5s;
-}
-
-.card-box:hover .card-image {
-  transform: scale(1.2);
-  transition: all 1.1s;
-}
-
-.card-info {
-  opacity: 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.77) 85%);
+  height: 100%;
 }
 
 .card-image {
@@ -177,5 +166,17 @@ export default {
   text-align: left;
 }
 
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  background: #0b0c12;
+}
 
+.dialog-card {
+  background: #151618 !important;
+}
 </style>

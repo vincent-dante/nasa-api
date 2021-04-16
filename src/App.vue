@@ -9,7 +9,7 @@
 
     <v-main>
       <v-container>
-        <h1 class="heading-title">NASA API</h1>
+        <h1 class="heading-title green--text">NASA API</h1>
         <div class="div-content">
           <router-view/>
         </div>
