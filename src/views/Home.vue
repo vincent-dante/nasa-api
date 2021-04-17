@@ -20,8 +20,9 @@
         </v-col>
       </v-row>
 
+      <img src="../assets/loading.gif" alt="" srcset="" class="loading-img" v-if="loadingImg">
 
-      <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20">
+      <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20" v-else>
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
           <v-hover v-slot="{ hover }">
             <v-card class="card-box" @click="loadModal(obj)">
@@ -96,14 +97,16 @@ export default {
       rules: [
         value => !!value || 'Required.'
       ],
-      showModal: false,
       dataSelected: {},
-      dialog: false
+      dialog: false,
+      loadingImg: false
     }
   },
   methods: {
 
     loadData(){
+      this.loadingImg = true;
+
       let search = this.search;
       let pageNum = this.pageNumber;
 
@@ -116,6 +119,8 @@ export default {
         let data = response.data.collection;
 
         this.datas = data.items;
+
+        this.loadingImg = false;
       })
       .catch( err => console.error(err) )
 
@@ -177,5 +182,9 @@ export default {
 
 .dialog-card {
   background: #151618 !important;
+}
+
+.loading-img {
+  width: 250px;
 }
 </style>
