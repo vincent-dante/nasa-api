@@ -62,9 +62,8 @@
               <span class="headline green--text">{{ dataSelected.data[0].title }}</span>
             </v-card-title>
 
-            <v-card-text class="card-description">
-              {{ dataSelected.data[0].description }}
-            </v-card-text>
+            <v-card-text class="card-description"  v-html="dataSelected.data[0].description"></v-card-text>
+
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn

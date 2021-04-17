@@ -10,6 +10,7 @@
     <v-main>
       <v-container>
         <h1 class="heading-title green--text">NASA API</h1>
+        <p class="green--text">By: Vincent Dante</p>
         <div class="div-content">
           <router-view/>
         </div>
