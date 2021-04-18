@@ -110,7 +110,10 @@ export default {
       let search = this.search;
       let pageNum = this.pageNumber;
 
-      if(search.length == 0) return;
+      if(search.length == 0) {
+        this.loadingImg = false;
+        return;
+      }
 
       axios
       .get(`https://images-api.nasa.gov/search?q=${search}&page=${pageNum}`)
