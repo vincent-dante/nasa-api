@@ -1,24 +1,13 @@
-# nasa_api
+# NASA API PROJECT :rocket:
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Hi there :wave: this is my project for NASA APIs.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Stack I Use:
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- :zap: VueJS
+- :fire: Node.js
+
+## Live Preview
+https://nasa-app-vincentdante.herokuapp.com/
