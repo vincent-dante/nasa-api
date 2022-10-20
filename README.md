@@ -10,4 +10,4 @@ Hi there :wave: this is my project for NASA APIs.
 - :fire: Node.js
 
 ## Live Preview
-https://nasa-app-vincentdante.herokuapp.com/
+https://nasa-api-vincentdante.vercel.app/
