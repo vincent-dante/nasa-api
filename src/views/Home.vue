@@ -1,14 +1,12 @@
 <template>
   <v-row>
-
     <v-col class="col-lg-10 col-sm-12 offset-lg-1">
-
-      <v-row> 
+      <v-row>
         <v-col class="col-lg-6 col-sm-12 offset-lg-3">
           <div class="pt-10 pb-10">
-            <v-text-field 
-              label="Search here." 
-              @keyup.enter="loadData()" 
+            <v-text-field
+              label="Search here."
+              @keyup.enter="loadData()"
               v-model="search"
               :rules="rules"
             >
@@ -20,66 +18,76 @@
         </v-col>
       </v-row>
 
-      <img src="../assets/loading.gif" alt="" srcset="" class="loading-img" v-if="loadingImg">
+      <img
+        src="../assets/loading.gif"
+        alt=""
+        srcset=""
+        class="loading-img"
+        v-if="loadingImg"
+      />
 
-      <masonry :cols="{default: 4, 992: 3, 768: 2, 600: 1}" :gutter="20" v-else>
+      <masonry
+        :cols="{ default: 4, 992: 3, 768: 2, 600: 1 }"
+        :gutter="20"
+        v-else
+      >
         <div v-for="(obj, id) in datas" :key="id" class="card-container">
           <v-hover v-slot="{ hover }">
             <v-card class="card-box" @click="loadModal(obj)">
-              
-              <v-img 
+              <v-img
                 v-if="obj && obj.links"
                 lazy-src="https://picsum.photos/id/11/10/6"
                 :src="obj.links[0].href"
-                class="card-image" 
+                class="card-image"
               >
-              <v-expand-transition>
-                <div
-                  v-if="hover"
-                  class="d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text"
-                  style="height: 100%;"
-                >
-                  <div v-for="(data, id) in obj.data" :key="id" class="p-5">
-                    <v-card-title class="card-title-chg green--text">
-                      {{ data.title }}
-                    </v-card-title>
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text"
+                    style="height: 100%;"
+                  >
+                    <div v-for="(data, id) in obj.data" :key="id" class="p-5">
+                      <v-card-title class="card-title-chg green--text">
+                        {{ data.title }}
+                      </v-card-title>
+                    </div>
                   </div>
-                </div>
-              </v-expand-transition>
+                </v-expand-transition>
               </v-img>
             </v-card>
           </v-hover>
         </div>
       </masonry>
 
-
       <v-dialog v-model="dialog" width="600px">
         <div v-if="dialog">
           <v-card class="dialog-card">
-
-            <v-img lazy-src="https://picsum.photos/id/11/10/6" :src="dataSelected.links[0].href" class="card-image"></v-img> 
+            <v-img
+              lazy-src="https://picsum.photos/id/11/10/6"
+              :src="dataSelected.links[0].href"
+              class="card-image"
+            ></v-img>
 
             <v-card-title>
-              <span class="headline green--text">{{ dataSelected.data[0].title }}</span>
+              <span class="headline green--text">{{
+                dataSelected.data[0].title
+              }}</span>
             </v-card-title>
 
-            <v-card-text class="card-description"  v-html="dataSelected.data[0].description"></v-card-text>
+            <v-card-text
+              class="card-description"
+              v-html="dataSelected.data[0].description"
+            ></v-card-text>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="green darken-1"
-                text
-                @click="dialog = false"
-              >
+              <v-btn color="green darken-1" text @click="dialog = false">
                 Close
               </v-btn>
             </v-card-actions>
           </v-card>
         </div>
       </v-dialog>
-
-
     </v-col>
   </v-row>
 </template>
@@ -89,54 +97,46 @@ const axios = require('axios');
 
 export default {
   name: 'Home',
-  data(){
+  data() {
     return {
       search: '',
       datas: [],
       pageNumber: 1,
-      rules: [
-        value => !!value || 'Required.'
-      ],
+      rules: [(value) => !!value || 'Required.'],
       dataSelected: {},
       dialog: false,
-      loadingImg: false
-    }
+      loadingImg: false,
+    };
   },
   methods: {
-
-    loadData(){
+    loadData() {
       this.loadingImg = true;
 
       let search = this.search;
       let pageNum = this.pageNumber;
 
-      if(search.length == 0) {
+      if (search.length == 0) {
         this.loadingImg = false;
         return;
       }
 
       axios
-      .get(`https://images-api.nasa.gov/search?q=${search}&page=${pageNum}`)
-      .then( response => {
-        
-        let data = response.data.collection;
+        .get(`https://images-api.nasa.gov/search?q=${search}&page=${pageNum}`)
+        .then((response) => {
+          let data = response.data.collection;
 
-        this.datas = data.items;
+          this.datas = data.items;
 
-        this.loadingImg = false;
-      })
-      .catch( err => console.error(err) )
-
+          this.loadingImg = false;
+        })
+        .catch((err) => console.error(err));
     },
-    loadModal(obj){
-
+    loadModal(obj) {
       this.dialog = true;
       this.dataSelected = obj;
-
-    }
-
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -163,7 +163,7 @@ export default {
 .card-image {
   width: 100%;
   max-height: 500px;
-} 
+}
 
 .card-title-chg {
   font-size: 18px;
